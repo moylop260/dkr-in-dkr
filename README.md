@@ -9,3 +9,10 @@ Docker in docker
  4. Connect to your docker in docker:
     `"DOCKER_TLS_VERIFY=1  DOCKER_CERT_PATH={YOUR_LOCAL_CERT_PATH} DOCKER_HOST=tcp://{REMOTE_IP}:{REMOTE_PORT} docker {COMMAND}"`
     You can create a alias in your bash profile to run docker remote command easiest.
+
+ Note: From step 2 to 4 you can execute `./run.sh`
+
+Installation
+============
+
+ - Install docker last version (>=8.0)
