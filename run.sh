@@ -5,8 +5,8 @@ set -v
 if [ -z "${IMAGE}" ]
     then export IMAGE="dkr-in-dkr"
 fi
-if [ -z "${MYPORT}" ]
-    then export MYPORT="12376"
+if [ -z "${PORT}" ]
+    then export PORT="12376"
 fi
 if [ -z "${NAME}" ]
     then export NAME="$IMAGE"-test
@@ -19,5 +19,5 @@ fi
 export CONTAINER_VOLUME_PATH="$CONTAINER_VOLUME"/"$NAME"
 
 docker build $1 -t $IMAGE .
-docker run --privileged -v $CONTAINER_VOLUME:/var/lib/docker -d -p $MYPORT:2376 --name=$NAME $IMAGE $2
+docker run --privileged -v $CONTAINER_VOLUME:/var/lib/docker -d -p $PORT:2376 --name=$NAME $IMAGE $2
 
