@@ -1,7 +1,7 @@
 Docker in docker
 ================
 
- 1. Create your keys and put in ./files/docker_keys
+ 1. Create your keys and put in ./files/docker_keys more info [here](https://docs.docker.com/articles/https/)
  2. Build image:
     `docker build -t dkr-in-dkr .`
  3. Create container:

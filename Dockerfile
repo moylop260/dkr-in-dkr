@@ -23,7 +23,7 @@ RUN update-grub
 
 # Define additional metadata for our image.
 VOLUME /var/lib/docker
-ENV PORT 2376 
+ENV PORT 2376
 ENTRYPOINT ["/entrypoint.sh"]
 EXPOSE ${PORT}
 
