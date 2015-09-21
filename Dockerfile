@@ -7,6 +7,8 @@ RUN apt-get update -qq && apt-get install -qqy \
     apt-transport-https \
     ca-certificates \
     curl \
+    apparmor-profiles \
+    lxc \
     vim
 
 # Force install docker >= 1.8
@@ -29,6 +31,9 @@ RUN echo "#!/bin/bash \
     --tlscert=/docker_keys/server-cert.pem --tlskey=/docker_keys/server-key.pem \
     -H=0.0.0.0:${PORT}" | tee -a /entrypoint.sh \
     && chmod +x /entrypoint.sh
+
+# ENV to connect to docker locally into docker
+ENV PORT=2376 DOCKER_TLS_VERIFY=1 DOCKER_CERT_PATH=/docker_keys DOCKER_HOST=tcp://127.0.0.1:${PORT}
 
 # Define additional metadata for our image.
 VOLUME /var/lib/docker
