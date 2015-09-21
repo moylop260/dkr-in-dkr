@@ -19,5 +19,5 @@ fi
 export CONTAINER_VOLUME_PATH="$CONTAINER_VOLUME"/"$NAME"
 
 docker build $1 -t $IMAGE .
-docker run --privileged -v $CONTAINER_VOLUME:/var/lib/docker -d -p $PORT:2376 --name=$NAME $IMAGE $2
+docker run --privileged -v $CONTAINER_VOLUME_PATH:/var/lib/docker -d -p $PORT:2376 --name=$NAME $IMAGE $2
 
