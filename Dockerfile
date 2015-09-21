@@ -1,5 +1,6 @@
 
 FROM ubuntu:15.04
+# FROM ubuntu:14.04
 
 ADD ./files/docker_keys /docker_keys
 
@@ -10,6 +11,11 @@ RUN apt-get update -qq && apt-get install -qqy \
     apparmor-profiles \
     lxc \
     vim
+
+# Fix warning modprobe:
+# http://askubuntu.com/questions/459296/could-not-open-moddep-file-lib-modules-3-xx-generic-modules-dep-bin-when-mo
+# RUN apt-get install --reinstall linux-image-3.13.0
+# RUN apt-get install --reinstall linux-image-3.19.0
 
 # Force install docker >= 1.8
 RUN echo deb https://apt.dockerproject.org/repo \
