@@ -18,9 +18,6 @@ RUN apt-get update -qq && apt-get install -qqy \
 # Install Docker from Docker Inc. repositories.
 RUN curl -sSL https://get.docker.com/ubuntu/ | sh
 
-ENV GRUB_CMDLINE_LINUX "cgroup_enable=memory swapaccount=1"
-RUN update-grub
-
 # Define additional metadata for our image.
 VOLUME /var/lib/docker
 ENV PORT 2376
