@@ -1,5 +1,5 @@
 
-FROM ubuntu:15.04
+FROM ubuntu:14.04
 # FROM ubuntu:14.04
 
 ADD ./files/docker_keys /docker_keys
@@ -17,14 +17,9 @@ RUN apt-get update -qq && apt-get install -qqy \
 # RUN apt-get install --reinstall linux-image-3.13.0
 # RUN apt-get install --reinstall linux-image-3.19.0
 
-# Force install docker >= 1.8
-RUN echo deb https://apt.dockerproject.org/repo \
-   ubuntu-`cat /etc/lsb-release | grep DISTRIB_CODENAME | cut -d'=' -f2` main \
-   >> /etc/apt/sources.list.d/docker.list && \
-    apt-key adv --keyserver keyserver.ubuntu.com --recv-keys F76221572C52609D && \
-    apt-get update && \
-    apt-get install -y docker-engine
-
+# Force install docker lastest
+RUN curl -sSL https://get.docker.com/ | sh 
+RUN curl -sSL https://get.docker.com/ | sh
 # ENV to connect to docker locally into docker
 ENV PORT 2376
 ENV DOCKER_TLS_VERIFY 1
