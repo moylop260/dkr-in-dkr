@@ -17,7 +17,6 @@ for container in containers.splitlines()[1:]:
     print "Updating main image in ", name,
     cmd = ['docker', 'exec', '-it', name, 'docker', 'pull', 'vauxoo/odoo-80-image-shippable-auto']
     out = subprocess.check_output(cmd)
-    continue
     cmd_exec_base = ['docker', 'exec', '-it', name]
     cmd = ['docker', 'info']
     container_info = subprocess.check_output(cmd_exec_base + cmd)
