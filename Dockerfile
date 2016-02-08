@@ -10,16 +10,19 @@ RUN apt-get update -qq && apt-get install -qqy \
     curl \
     apparmor-profiles \
     lxc \
-    vim
+    vim \
+  && rm -rf /var/lib/apt/lists
 
 # Fix warning modprobe:
 # http://askubuntu.com/questions/459296/could-not-open-moddep-file-lib-modules-3-xx-generic-modules-dep-bin-when-mo
 # RUN apt-get install --reinstall linux-image-3.13.0
 # RUN apt-get install --reinstall linux-image-3.19.0
 
-# Force install docker lastest
-RUN curl -sSL https://get.docker.com/ | sh 
-RUN curl -sSL https://get.docker.com/ | sh
+# install docker lastest
+RUN curl -sSL https://get.docker.com/ | sh \
+  && rm -rf /var/lib/apt/lists \
+  && rm -rf /var/lib/docker
+# RUN curl -sSL https://get.docker.com/ | sh
 # ENV to connect to docker locally into docker
 ENV PORT 2376
 ENV DOCKER_TLS_VERIFY 1
