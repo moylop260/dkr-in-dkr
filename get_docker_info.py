@@ -9,14 +9,24 @@ containers = subprocess.check_output(cmd)
 item_filters = ['Containers', 'Images', 'Dirs']#, "Server Version", "Name"]
 inspect_filters = ['Source', 'Destination', 'HostPort']
 datas = []
+search_process = "" # "find -L"
+update_image = False
 
 for container in containers.splitlines()[1:]:
     container_id, name = container.strip().split()
     data_dict = {}
     data_dict['name'] = name
-    print "Updating main image in ", name,
-    cmd = ['docker', 'exec', '-it', name, 'docker', 'pull', 'vauxoo/odoo-80-image-shippable-auto']
-    out = subprocess.check_output(cmd)
+    if update_image:
+        print "Updating main image in ", name
+        cmd = ['docker', 'exec', '-it', name, 'docker', 'pull', 'vauxoo/odoo-80-image-shippable-auto']
+        out = subprocess.check_output(cmd)
+
+    if search_process:
+        print "Searching process %s in %s" % (search_process, name)
+        cmd = ['docker', 'exec', '-it', name, 'ps', 'aux']
+        out = subprocess.check_output(cmd)
+        if search_process in out:
+           print "process found: ", search_process
     cmd_exec_base = ['docker', 'exec', '-it', name]
     cmd = ['docker', 'info']
     container_info = subprocess.check_output(cmd_exec_base + cmd)
