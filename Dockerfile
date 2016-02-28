@@ -11,7 +11,10 @@ RUN apt-get update -qq && apt-get install -qqy \
     apparmor-profiles \
     lxc \
     vim \
-  && rm -rf /var/lib/apt/lists
+    apparmor \
+    apparmor-utils \
+  && rm -rf /var/lib/apt/lists \
+  && apt-get upgrade
 
 # Fix warning modprobe:
 # http://askubuntu.com/questions/459296/could-not-open-moddep-file-lib-modules-3-xx-generic-modules-dep-bin-when-mo
