@@ -9,8 +9,9 @@ containers = subprocess.check_output(cmd)
 item_filters = ['Containers', 'Images', 'Dirs']#, "Server Version", "Name"]
 inspect_filters = ['Source', 'Destination', 'HostPort']
 datas = []
-search_process = "" # "find -L"
-update_image = False
+search_process = "ngrok" # "git branch" # "find -L"
+update_image = True
+delete_untagged = True
 
 for container in containers.splitlines()[1:]:
     container_id, name = container.strip().split()
@@ -19,7 +20,29 @@ for container in containers.splitlines()[1:]:
     if update_image:
         print "Updating main image in ", name
         cmd = ['docker', 'exec', '-it', name, 'docker', 'pull', 'vauxoo/odoo-80-image-shippable-auto']
-        out = subprocess.check_output(cmd)
+        try:
+            out = subprocess.check_output(cmd)
+        except subprocess.CalledProcessError as subp_e:
+            print subp_e.message
+    if delete_untagged:
+        cmd = ['docker', 'exec', '-it', name, 'docker', 'images', '-q', '--filter', 'dangling=true']
+        print ' '.join(cmd)
+        images_untagged = subprocess.check_output(cmd).replace('\r', '').strip('\n').split('\n')
+        for image_untagged in images_untagged:
+            try:
+                cmd = ['docker', 'exec', '-it', name, 'docker', 'rmi', image_untagged]
+                print ' '.join(cmd)
+                out = subprocess.check_output(cmd)
+            except subprocess.CalledProcessError as subp_e:
+                print subp_e.message
+        # continue
+#        Best update image base # print "Updating docker version in ", name
+#        cmd = ['docker', 'exec', '-it', name, 'apt-get', 'update']
+#        out = subprocess.check_output(cmd)
+#        cmd = ['docker', 'exec', '-it', name, 'apt-get', 'install', '--upgrade', 'docker-engine']
+#        out = subprocess.check_output(cmd)
+#        cmd = ['docker', 'exec', '-it', name, 'apt-get', 'upgrade']
+#        out = subprocess.check_output(cmd)
 
     if search_process:
         print "Searching process %s in %s" % (search_process, name)
