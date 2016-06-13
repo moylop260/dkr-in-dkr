@@ -27,12 +27,6 @@ RUN apt-get update -qq && apt-get install -qqy \
 RUN curl -sSL https://get.docker.com/ | sh \
   && rm -rf /var/lib/apt/lists \
   && rm -rf /var/lib/docker
-# RUN curl -sSL https://get.docker.com/ | sh
-# ENV to connect to docker locally into docker
-ENV PORT 2376
-ENV DOCKER_TLS_VERIFY 1
-ENV DOCKER_CERT_PATH /docker_keys
-ENV DOCKER_HOST=tcp://127.0.0.1:${PORT}
 
 # Creating entrypoint script
 RUN echo "#!/bin/bash \
