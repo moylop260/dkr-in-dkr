@@ -14,6 +14,7 @@ RUN apt-get update -qq && apt-get install -qqy \
     vim \
     apparmor \
     apparmor-utils \
+    tmux \
   && rm -rf /var/lib/apt/lists \
   && apt-get upgrade
 
@@ -22,15 +23,16 @@ RUN curl -sSL https://get.docker.com/ | sh \
   && rm -rf /var/lib/apt/lists \
   && rm -rf /var/lib/docker
 
+# ENV to connect to docker locally into docker
+ENV PORT=2376 DOCKER_TLS_VERIFY=1 DOCKER_CERT_PATH=/docker_keys
+ENV DOCKER_HOST=tcp://127.0.0.1:${PORT}
+
 # Creating entrypoint script
 RUN echo "#!/bin/bash \
     \n/usr/bin/docker daemon --tlsverify --tlscacert=/docker_keys/ca.pem \
     --tlscert=/docker_keys/server-cert.pem --tlskey=/docker_keys/server-key.pem \
     -H=0.0.0.0:${PORT}" | tee -a /entrypoint.sh \
     && chmod +x /entrypoint.sh
-
-# ENV to connect to docker locally into docker
-ENV PORT=2376 DOCKER_TLS_VERIFY=1 DOCKER_CERT_PATH=/docker_keys DOCKER_HOST=tcp://127.0.0.1:${PORT}
 
 # Define additional metadata for our image.
 VOLUME /var/lib/docker

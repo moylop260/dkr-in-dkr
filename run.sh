@@ -3,7 +3,7 @@
 set -v
 
 if [ -z "${IMAGE}" ]
-    then export IMAGE="dkr-in-dkr:201602"
+    then export IMAGE="dkr-in-dkr:201609"
 fi
 if [ -z "${PORT}" ]
     then export PORT="12376"
